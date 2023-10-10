@@ -70,6 +70,41 @@ app.get('/users/:id', (req, res) => {
     }
 });
 
+const addUser = (user) => {
+    users['users_list'].push(user);
+    return user;
+}
+
+app.post('/users', (req, res) => {
+    const userToAdd = req.body;
+    addUser(userToAdd);
+    res.send();
+});
+
+app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    const index = users['users_list'].findIndex(user => user.id === id);
+
+    if (index !== -1) {
+        users['users_list'].splice(index, 1);
+        res.status(204).send(); 
+    } else {
+        res.status(404).send('User not found.');
+    }
+});
+
+app.get('/users', (req, res) => {
+    const { name, job } = req.query;
+    let result = users['users_list'];
+    if (name) {
+        result = result.filter(user => user.name === name);
+    }
+    if (job) {
+        result = result.filter(user => user.job === job);
+    }
+    const response = { users_list: result };
+    res.send(response);
+});
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
