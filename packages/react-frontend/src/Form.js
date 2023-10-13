@@ -6,17 +6,22 @@ function Form(props) {
      {
         name: "",
         job: "",
+        id: ""
      }
   );
   function handleChange(event) {
     const { name, value } = event.target;
     if (name === "job")
       setPerson(
-         {name: person['name'], job: value}
+         {name: person['name'], job: value, id: person['id']}
       );
+    else if (name === "id")
+        setPerson(
+                {name: person['name'], job: person['job'], id: value}
+                );
     else     
        setPerson(
-         {name: value, job: person['job']}   
+         {name: value, job: person['job'], id: person['id']}   
        );
   }
 
